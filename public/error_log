@@ -1,0 +1,4 @@
+[05-Jan-2021 12:34:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Illuminate\Foundation\Application::run() in /home/q56nlfy2mfp2/public_html/tooth.orainfotech.com/public/index.php:41
+Stack trace:
+#0 {main}
+  thrown in /home/q56nlfy2mfp2/public_html/tooth.orainfotech.com/public/index.php on line 41
