@@ -184,7 +184,10 @@ php artisan passport:install
 # 9. Seed the admin user
 php artisan db:seed --class=AdminSeeder
 
-# 10. Compile frontend assets
+# 10. Create storage symlink for public file access
+php artisan storage:link
+
+# 11. Compile frontend assets
 npm run dev
 ```
 
