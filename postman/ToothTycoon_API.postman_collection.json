@@ -1,0 +1,696 @@
+{
+	"info": {
+		"_postman_id": "tooth-tycoon-api-collection",
+		"name": "Tooth Tycoon Mobile API",
+		"description": "Complete API collection for testing all Tooth Tycoon mobile app features. This includes authentication, child management, tooth pull tracking, investments, badges, and quiz questions.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "child_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pull_detail_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "currency_id",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.accessToken) {",
+									"        pm.environment.set(\"access_token\", jsonData.data.accessToken);",
+									"        console.log(\"Access token saved:\", jsonData.data.accessToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "register"]
+						},
+						"description": "Register a new user account. Password fields are encrypted using custom encryption in the app."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.accessToken) {",
+									"        pm.environment.set(\"access_token\", jsonData.data.accessToken);",
+									"        console.log(\"Access token saved:\", jsonData.data.accessToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"parent@example.com\",\n    \"password\": \"password123\",\n    \"device_id\": \"{{$randomUUID}}\",\n    \"fcm_token\": \"firebase_token_here\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "login"]
+						},
+						"description": "Login with email and password. Returns access token and user profile."
+					},
+					"response": []
+				},
+				{
+					"name": "Social Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.accessToken) {",
+									"        pm.environment.set(\"access_token\", jsonData.data.accessToken);",
+									"        console.log(\"Access token saved:\", jsonData.data.accessToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"social@example.com\",\n    \"social_id\": \"google_123456789\",\n    \"social_name\": \"google\",\n    \"name\": \"John Doe\",\n    \"device_id\": \"{{$randomUUID}}\",\n    \"fcm_token\": \"firebase_token_here\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Social",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Social"]
+						},
+						"description": "Login or register using social authentication (Google, Facebook, etc.)"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"parent@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/forgot",
+							"host": ["{{base_url}}"],
+							"path": ["api", "forgot"]
+						},
+						"description": "Request password reset. Sends a 6-character code to the user's email."
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"parent@example.com\",\n    \"code\": \"ABC123\",\n    \"password\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reset",
+							"host": ["{{base_url}}"],
+							"path": ["api", "reset"]
+						},
+						"description": "Reset password using the code received via email."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/logout",
+							"host": ["{{base_url}}"],
+							"path": ["api", "logout"]
+						},
+						"description": "Logout and revoke all access tokens for the authenticated user."
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for user registration, login, password management, and social login."
+		},
+		{
+			"name": "User Profile",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user",
+							"host": ["{{base_url}}"],
+							"path": ["api", "user"]
+						},
+						"description": "Get authenticated user's profile information."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Updated Parent Name",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "+1234567890",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ProfileUpdate",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ProfileUpdate"]
+						},
+						"description": "Update user profile. Can upload profile image or provide base64 image string."
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"old_password\": \"password123\",\n    \"new_password\": \"newpassword456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ChangePassword",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ChangePassword"]
+						},
+						"description": "Change user password. Requires old password for verification."
+					},
+					"response": []
+				}
+			],
+			"description": "User profile management endpoints."
+		},
+		{
+			"name": "Children Management",
+			"item": [
+				{
+					"name": "Get Children List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.length > 0) {",
+									"        pm.collectionVariables.set(\"child_id\", jsonData.data[0].id);",
+									"        console.log(\"Child ID saved:\", jsonData.data[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/child",
+							"host": ["{{base_url}}"],
+							"path": ["api", "child"]
+						},
+						"description": "Get list of all children for the authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Child",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.id) {",
+									"        pm.collectionVariables.set(\"child_id\", jsonData.data.id);",
+									"        console.log(\"Child ID saved:\", jsonData.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{$randomFirstName}}",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/child/add",
+							"host": ["{{base_url}}"],
+							"path": ["api", "child", "add"]
+						},
+						"description": "Add a new child to the user's account. Can include profile image."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pull History",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"child_id\": \"{{child_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/child/pull_history",
+							"host": ["{{base_url}}"],
+							"path": ["api", "child", "pull_history"]
+						},
+						"description": "Get complete pull history for a child including teeth list, total amount, and badges."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing children profiles."
+		},
+		{
+			"name": "Budget & Currency",
+			"item": [
+				{
+					"name": "Get Currency List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.length > 0) {",
+									"        pm.collectionVariables.set(\"currency_id\", jsonData.data[0].id);",
+									"        console.log(\"Currency ID saved:\", jsonData.data[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/currency/get",
+							"host": ["{{base_url}}"],
+							"path": ["api", "currency", "get"]
+						},
+						"description": "Get list of available currencies with their symbols and codes."
+					},
+					"response": []
+				},
+				{
+					"name": "Set Budget",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency_id\": \"{{currency_id}}\",\n    \"amount\": \"5.00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/SetBudget",
+							"host": ["{{base_url}}"],
+							"path": ["api", "SetBudget"]
+						},
+						"description": "Set or update the reward budget per tooth for the user."
+					},
+					"response": []
+				}
+			],
+			"description": "Currency and budget management endpoints."
+		},
+		{
+			"name": "Tooth Pull Process",
+			"item": [
+				{
+					"name": "Pull Tooth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.id) {",
+									"        pm.collectionVariables.set(\"pull_detail_id\", jsonData.data.id);",
+									"        console.log(\"Pull Detail ID saved:\", jsonData.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "child_id",
+									"value": "{{child_id}}",
+									"type": "text"
+								},
+								{
+									"key": "teeth_number",
+									"value": "1",
+									"type": "text",
+									"description": "Tooth number (1-20)"
+								},
+								{
+									"key": "pull_date",
+									"value": "{{$isoTimestamp}}",
+									"type": "text",
+									"description": "Format: YYYY-MM-DD"
+								},
+								{
+									"key": "picture",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/child/teeth/pull",
+							"host": ["{{base_url}}"],
+							"path": ["api", "child", "teeth", "pull"]
+						},
+						"description": "Record a tooth pull event. Requires child_id, teeth_number (1-20), pull_date, and picture."
+					},
+					"response": []
+				},
+				{
+					"name": "Invest Amount",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"child_id\": \"{{child_id}}\",\n    \"pull_detail_id\": \"{{pull_detail_id}}\",\n    \"years\": \"5\",\n    \"rate\": \"5.0\",\n    \"amount\": \"10.00\",\n    \"final_amount\": \"12.76\",\n    \"end_date\": \"2030-12-31\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/child/invest",
+							"host": ["{{base_url}}"],
+							"path": ["api", "child", "invest"]
+						},
+						"description": "Create an investment from tooth rewards with compound interest calculation."
+					},
+					"response": []
+				},
+				{
+					"name": "Cash Out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"child_id\": \"{{child_id}}\",\n    \"pull_detail_id\": \"{{pull_detail_id}}\",\n    \"amount\": \"5.00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/child/cashout",
+							"host": ["{{base_url}}"],
+							"path": ["api", "child", "cashout"]
+						},
+						"description": "Cash out rewards for a child. Reduces their available balance."
+					},
+					"response": []
+				},
+				{
+					"name": "Record Milestone",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"child_id\": \"{{child_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/MillStone",
+							"host": ["{{base_url}}"],
+							"path": ["api", "MillStone"]
+						},
+						"description": "Record a milestone achievement for a child."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for tooth pull tracking, investments, cash outs, and milestones."
+		},
+		{
+			"name": "Badges",
+			"item": [
+				{
+					"name": "Get Badges",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"child_id\": \"{{child_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Budges",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Budges"]
+						},
+						"description": "Get all badges and achievement progress for a child. Shows which badges are earned based on teeth pulled, photos uploaded, quiz questions answered, etc."
+					},
+					"response": []
+				}
+			],
+			"description": "Badge and achievement endpoints."
+		},
+		{
+			"name": "Quiz Questions",
+			"item": [
+				{
+					"name": "Get Questions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Questions",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Questions"]
+						},
+						"description": "Get all available quiz questions for children."
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Questions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"child_id\": \"{{child_id}}\",\n    \"question1\": true,\n    \"question2\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/SubmitQuestions",
+							"host": ["{{base_url}}"],
+							"path": ["api", "SubmitQuestions"]
+						},
+						"description": "Submit answers to daily quiz questions. Tracks daily streaks - missing a day resets progress."
+					},
+					"response": []
+				}
+			],
+			"description": "Quiz question endpoints for earning badges."
+		}
+	]
+}
