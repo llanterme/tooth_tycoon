@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\User;
-use App\Childe;
-use App\PullDetails;
+use App\Models\User;
+use App\Models\Childe;
+use App\Models\PullDetails;
 
 class CashOut extends Model
 {
