@@ -4,32 +4,88 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Tooth Tycoon is a Laravel 7 application that gamifies tooth fairy rewards for children. Parents can track when their children lose teeth, set budgets, manage investments, and award badges with quizzes. The application has both a web admin panel (using AdminLTE) and a mobile API backend using Laravel Passport for authentication.
+Tooth Tycoon is a Laravel 10 application that gamifies tooth fairy rewards for children. Parents can track when their children lose teeth, set budgets, manage investments, and award badges with quizzes. The application has both a web admin panel (using AdminLTE) and a mobile API backend using Laravel Passport for authentication.
+
+**Recent Update (November 2025)**: The application has been successfully upgraded from Laravel 7 → Laravel 8 → Laravel 9 → Laravel 10 with full PHP 8.1+ compatibility.
 
 ## Technology Stack
 
-- **Backend Framework**: Laravel 7.x (PHP ^7.2.5)
-  - ⚠️ **Note**: Laravel 7 has compatibility issues with PHP 8.1+. Consider upgrading to Laravel 9 or 10 for better PHP 8.x support.
-- **Authentication**: Laravel Passport (OAuth2) for API
-- **Admin Panel**: Laravel AdminLTE 3.4
+- **Backend Framework**: Laravel 10.x (PHP ^8.1)
+  - ✅ **Fully compatible** with PHP 8.1+ and modern development practices
+  - Upgraded from Laravel 7 through incremental versions (7→8→9→10)
+- **Authentication**: Laravel Passport (^11.10) for OAuth2 API authentication
+- **Admin Panel**: Laravel AdminLTE (^3.15.2)
 - **Database**: MySQL
 - **Frontend Assets**: Laravel Mix (Webpack), SASS
-- **Testing**: PHPUnit 8.5
+- **Testing**: PHPUnit 10.x
+
+## Laravel 10 Upgrade History
+
+### Upgrade Timeline (November 2025)
+
+The application was successfully upgraded from Laravel 7 to Laravel 10 through incremental version upgrades:
+
+**Phase 1: Laravel 7 → Laravel 8**
+- Updated `composer.json` to require Laravel 8 framework
+- Updated dependencies for Laravel 8 compatibility
+- Resolved breaking changes from Laravel 8 upgrade guide
+
+**Phase 2: Laravel 8 → Laravel 9**
+- Updated to Laravel 9 framework
+- Updated PHP requirement to ^8.0
+- Resolved additional breaking changes
+
+**Phase 3: Laravel 9 → Laravel 10**
+- Updated to Laravel 10 framework
+- Updated PHP requirement to ^8.1
+- Updated Laravel Passport to ^11.10
+- Updated testing framework to PHPUnit 10
+
+**Phase 4: Database Migrations**
+- Created Laravel 10-compatible migrations for all application tables:
+  - `badges`: Achievement badges with quiz questions
+  - `budgets`: Per-user reward budgets
+  - `childe`: Children profiles
+  - `pull_detail`: Tooth pulling records
+  - `questions`: Badge-related quiz questions
+  - `cash_outs`: Withdrawal transactions
+  - `invest_amounts`: Investment records with compound interest
+  - `teeth_details`: Teeth tracking details
+  - `tooth_rewards`: Reward amounts per tooth type
+  - `submit_questions`: User quiz submissions
+  - `mile_stores`: Milestone achievements
+
+**Phase 5: AdminLTE Compatibility**
+- Resolved compatibility issues with Laravel AdminLTE package
+- Removed outdated published views from Laravel 7 era
+- Application now uses vendor's current views (v3.15.2) directly
+- Fixed `@inject` directive syntax issues
+- Removed references to deprecated helper methods
+
+### Key Dependencies Updated
+
+| Package | Old Version | New Version |
+|---------|-------------|-------------|
+| Laravel Framework | 7.x | 10.49.1 |
+| Laravel Passport | 7.x | 11.10+ |
+| Laravel AdminLTE | 3.4 | 3.15.2 |
+| PHPUnit | 8.5 | 10.x |
+| PHP | 7.2.5+ | 8.1+ |
 
 ## Local Deployment on Mac
 
 ### Prerequisites
 
-This application requires PHP 7.2.5+, MySQL, Composer, and Node.js. Follow these steps to install them:
+This application requires PHP 8.1+, MySQL, Composer, and Node.js. Follow these steps to install them:
 
 #### 1. Install Homebrew (if not already installed)
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-#### 2. Install PHP 8.1, 8.2, or 8.3
+#### 2. Install PHP 8.1 or higher
 ```bash
-# Install PHP (Laravel 7 requires PHP ^7.2.5, but works with PHP 8.x)
+# Install PHP (Laravel 10 requires PHP ^8.1)
 brew install php@8.1
 
 # Add PHP to your PATH
@@ -39,7 +95,7 @@ echo 'export PATH="/opt/homebrew/opt/php@8.1/sbin:$PATH"' >> ~/.bash_profile
 # IMPORTANT: Restart your terminal or run this to apply changes:
 source ~/.bash_profile
 
-# Verify installation (should show PHP 8.1.x)
+# Verify installation (should show PHP 8.1.x or higher)
 php -v
 
 # If php command is still not found, try:
@@ -88,31 +144,26 @@ npm -v
 Once prerequisites are installed, set up the application:
 
 ```bash
-# 1. Update composer.json to support PHP 8.x (if not already done)
-# The composer.json has been updated to allow PHP 8.x: "php": "^7.2.5|^8.0"
-
-# 2. Delete composer.lock and regenerate dependencies
-rm -f composer.lock
-
-# 3. Install PHP dependencies
+# 1. Install PHP dependencies
+# Note: composer.json requires PHP ^8.1 and Laravel 10
 composer install
 
-# 4. Install NPM dependencies
+# 2. Install NPM dependencies
 npm install
 
-# 5. Copy environment file
+# 3. Copy environment file
 cp .env.example .env
 
-# 6. Edit .env file and configure database
+# 4. Edit .env file and configure database
 # Update these values in .env:
 #   DB_DATABASE=tooth_tycoon
 #   DB_USERNAME=root
 #   DB_PASSWORD=your_mysql_password
 
-# 7. Generate application key
+# 5. Generate application key
 php artisan key:generate
 
-# 8. Create required directories and set correct permissions
+# 6. Create required directories and set correct permissions
 mkdir -p storage/logs
 mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
@@ -123,17 +174,17 @@ chmod -R 775 storage bootstrap/cache
 chmod -R 777 storage/logs
 chmod -R 777 storage/framework
 
-# 9. Run migrations to create database tables
+# 7. Run migrations to create database tables
 php artisan migrate
 
-# 10. Install Laravel Passport (OAuth2 for API)
+# 8. Install Laravel Passport (OAuth2 for API)
 php artisan passport:install
 # Save the Client ID and Client Secret shown after this command
 
-# 11. Seed the admin user
+# 9. Seed the admin user
 php artisan db:seed --class=AdminSeeder
 
-# 12. Compile frontend assets
+# 10. Compile frontend assets
 npm run dev
 ```
 
@@ -195,41 +246,19 @@ chmod -R 777 storage bootstrap/cache
 composer dump-autoload
 ```
 
-**PHP 8.1 Compatibility Issues with Laravel 7:**
-Laravel 7 has known compatibility issues with PHP 8.1:
-```
-Fatal error: During inheritance of ArrayAccess...
-Deprecated: Return type of Illuminate\Container\Container::offsetExists($key)...
-```
+**AdminLTE View Compatibility (RESOLVED):**
+If you encounter errors like `Undefined constant "JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper"`, this was an issue with outdated published AdminLTE views from the Laravel 7 era. The solution:
 
-You have **two options**:
-
-**Option A: Use PHP 7.4 or 8.0 (Short-term workaround)**
 ```bash
-# Unfortunately PHP 8.0 is no longer available in Homebrew
-# You would need to use a PHP version manager like phpbrew or download manually
+# Backup any published AdminLTE views
+mv resources/views/vendor/adminlte resources/views/vendor/adminlte.backup-$(date +%Y%m%d-%H%M%S)
+
+# Clear view cache
+php artisan view:clear
+php artisan config:clear
 ```
 
-**Option B: Upgrade Laravel (Recommended long-term solution)**
-Upgrade the project from Laravel 7 to Laravel 9 or 10, which have full PHP 8.1+ support:
-- Laravel 9 requires PHP 8.0+
-- Laravel 10 requires PHP 8.1+
-
-This requires following the Laravel upgrade guides:
-1. Laravel 7 → 8: https://laravel.com/docs/8.x/upgrade
-2. Laravel 8 → 9: https://laravel.com/docs/9.x/upgrade
-3. Laravel 9 → 10: https://laravel.com/docs/10.x/upgrade
-
-**Option C: Suppress errors temporarily (Development only)**
-Add this to composer.json scripts section to skip the failing post-install:
-```json
-"scripts": {
-    "post-autoload-dump": [
-        "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
-    ]
-}
-```
-Then manually run `php -d error_reporting=E_ALL artisan package:discover` after install.
+This allows Laravel to use the vendor package's up-to-date views (v3.15.2) directly. All customizations should be done through the `config/adminlte.php` configuration file rather than publishing views.
 
 **Permission Issues:**
 ```bash
@@ -418,12 +447,51 @@ After initial setup, run `php artisan passport:install` to create encryption key
 
 The admin panel is configured in [config/adminlte.php](config/adminlte.php). The title prefix is "Admin - " and the main title is "Tooth".
 
+**Important Note on AdminLTE Views:**
+- **DO NOT** publish AdminLTE views using `php artisan vendor:publish`
+- The application uses vendor package views directly (v3.15.2)
+- Published views from older versions are incompatible with Laravel 10 and PHP 8.1+
+- All customizations should be done through [config/adminlte.php](config/adminlte.php)
+- If you have published views, back them up and remove them:
+  ```bash
+  mv resources/views/vendor/adminlte resources/views/vendor/adminlte.backup
+  php artisan view:clear
+  ```
+
+**AdminLTE Package Compatibility:**
+- Current version: v3.15.2
+- Uses `SidebarItemHelper`, `LayoutHelper`, `PreloaderHelper` classes
+- Blade `@inject` directives require string notation: `@inject('helper', 'ClassName')`
+- Not compatible with old published views that use backslash notation: `@inject('helper', \ClassName)`
+
 ## Database Migrations
 
-Migrations are in `database/migrations/`. The application uses Laravel Passport's OAuth tables plus custom tables for the tooth tracking system. Key migration files track:
-- OAuth tokens and clients (Passport)
-- Currency settings
-- User, child, and teeth tracking tables
+Migrations are in `database/migrations/`. The application uses Laravel Passport's OAuth tables plus custom tables for the tooth tracking system.
+
+### Migration Files
+
+All migrations have been updated for Laravel 10 compatibility (November 2025):
+
+**Core Application Tables:**
+- `2025_11_03_090829_create_badges_table.php` - Achievement badges
+- `2025_11_03_090830_create_childe_table.php` - Children profiles
+- `2025_11_03_090831_create_teeth_details_table.php` - Teeth tracking
+- `2025_11_03_090831_create_tooth_rewards_table.php` - Reward amounts
+- `2025_11_03_090832_create_budgets_table.php` - Budget settings
+- `2025_11_03_090833_create_pull_detail_table.php` - Tooth pull records
+- `2025_11_03_090834_create_questions_table.php` - Quiz questions
+- `2025_11_03_090857_create_cash_outs_table.php` - Withdrawal transactions
+- `2025_11_03_090857_create_invest_amounts_table.php` - Investment records
+- `2025_11_03_090857_create_submit_questions_table.php` - Quiz submissions
+- `2025_11_03_090858_create_mile_stores_table.php` - Milestones
+
+**Laravel Passport Tables:**
+- OAuth access tokens
+- OAuth clients
+- OAuth refresh tokens
+- Personal access clients
+
+All migrations use proper foreign key constraints and Laravel 10 migration syntax.
 
 ## Testing Configuration
 

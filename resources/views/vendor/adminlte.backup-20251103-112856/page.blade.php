@@ -1,6 +1,7 @@
 @extends('adminlte::master')
 
-@inject('layoutHelper', \JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper)
+@inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
+@inject('preloaderHelper', 'JeroenNoten\LaravelAdminLte\Helpers\PreloaderHelper')
 
 @if($layoutHelper->isLayoutTopnavEnabled())
     @php( $def_container_class = 'container' )
@@ -19,6 +20,11 @@
 
 @section('body')
     <div class="wrapper">
+
+        {{-- Preloader Animation (fullscreen mode) --}}
+        @if($preloaderHelper->isPreloaderEnabled())
+            @include('adminlte::partials.common.preloader')
+        @endif
 
         {{-- Top Navbar --}}
         @if($layoutHelper->isLayoutTopnavEnabled())
