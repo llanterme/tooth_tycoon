@@ -130,9 +130,23 @@ php artisan migrate
 php artisan passport:install
 # Save the Client ID and Client Secret shown after this command
 
-# 11. Compile frontend assets
+# 11. Seed the admin user
+php artisan db:seed --class=AdminSeeder
+
+# 12. Compile frontend assets
 npm run dev
 ```
+
+### Admin Login Credentials
+
+After running the setup, you can log in to the admin panel at `http://127.0.0.1:8000/login`:
+
+```
+Email: admin@toothtycoon.com
+Password: password
+```
+
+**⚠️ Important**: Change the default admin password after your first login for security.
 
 ### Running the Application Locally
 
