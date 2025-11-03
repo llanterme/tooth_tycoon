@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Badges;
-use App\Question;
+use App\Models\Badges;
+use App\Models\Question;
 use Session;
 
 class QuestionController extends Controller

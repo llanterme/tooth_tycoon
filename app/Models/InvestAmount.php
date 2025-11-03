@@ -1,14 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\User;
 use App\Childe;
 use App\PullDetails;
-
-class CashOut extends Model
+class InvestAmount extends Model
 {
+    use HasFactory;
     public function User()
     {
         return $this->belongsTo(User::class);

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Question;
+use App\Models\Question;
 use App\Http\Repository\BaseController;
-use App\SubmitQuestion;
+use App\Models\SubmitQuestion;
 
 class QuestionController extends Controller
 {

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Childe;
-use App\InvestAmount;
-use App\CashOut;
+use App\Models\User;
+use App\Models\Childe;
+use App\Models\InvestAmount;
+use App\Models\CashOut;
 use Session;
 
 class UserController extends Controller

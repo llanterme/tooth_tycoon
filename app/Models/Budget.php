@@ -1,11 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\User;
 class Budget extends Model
 {
+    use HasFactory;
     protected $fillable = ['amount','user_id'];
     public function User()
     {

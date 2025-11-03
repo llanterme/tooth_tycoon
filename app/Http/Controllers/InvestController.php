@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\InvestAmount;
+use App\Models\InvestAmount;
 
 class InvestController extends Controller
 {

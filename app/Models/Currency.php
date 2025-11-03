@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\PullDetails;
 use Carbon\Carbon;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class Currency extends Model
 {
+    use HasFactory;
     //protected $appends = ['TeethCount','age'];
 
     protected $table="currency";

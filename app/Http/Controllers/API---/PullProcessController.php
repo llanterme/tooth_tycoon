@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Repository\BaseController;
-use App\PullDetails;
-use App\InvestAmount;
-use App\CashOut;
-use App\Budget;
-use App\MileStore;
+use App\Models\PullDetails;
+use App\Models\InvestAmount;
+use App\Models\CashOut;
+use App\Models\Budget;
+use App\Models\MileStore;
 use Carbon\Carbon;
 
 class PullProcessController extends Controller

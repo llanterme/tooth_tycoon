@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Badges;
-use App\PullDetails;
+use App\Models\Badges;
+use App\Models\PullDetails;
 use App\Http\Controllers\Controller;
 use App\Http\Repository\BaseController;
-use App\MileStore;
-use App\SubmitQuestion;
+use App\Models\MileStore;
+use App\Models\SubmitQuestion;
 use Illuminate\Http\Request;
 use Validator; 
 class BudgesController extends Controller

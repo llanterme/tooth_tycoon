@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Repository\BaseController;
-use App\Childe;
-use App\PullDetails;
-use App\CashOut;
-use App\Badges;
+use App\Models\Childe;
+use App\Models\PullDetails;
+use App\Models\CashOut;
+use App\Models\Badges;
 use Carbon\Carbon;
 use Validator;
 
