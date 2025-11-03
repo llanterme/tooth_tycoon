@@ -1,11 +1,4 @@
 <?php return array (
-  'fideloper/proxy' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
-    ),
-  ),
   'jeroennoten/laravel-adminlte' => 
   array (
     'providers' => 
