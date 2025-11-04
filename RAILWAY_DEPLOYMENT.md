@@ -17,6 +17,8 @@ This guide walks you through deploying the Tooth Tycoon Laravel application to R
 4. Select your `tooth_tycoon` repository
 5. Select the `upgrade-laravel-10` branch (or `main` after merging)
 
+**Important**: Railway auto-detects PHP 8.2 from the `.php-version` file in the repo.
+
 ### 2. Add MySQL Database
 
 1. In your Railway project dashboard, click "+ New"
