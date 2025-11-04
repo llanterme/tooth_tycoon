@@ -1,0 +1,7 @@
+{
+  "phases": {
+    "setup": {
+      "nixPkgs": ["php83", "php83Extensions.mbstring", "php83Extensions.pdo", "php83Extensions.pdo_mysql", "nodejs", "npm"]
+    }
+  }
+}
