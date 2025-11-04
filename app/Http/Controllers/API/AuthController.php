@@ -3,8 +3,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use App\Budget;
+use App\Models\User;
+use App\Models\Budget;
 use Illuminate\Support\Facades\Mail;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Facades\Hash;
@@ -90,7 +90,8 @@ class AuthController extends Controller
 		$user = User::create($validatedData);
 		$user->accessToken=$user->createToken('authToken')->accessToken;
 
-		$resmail=$this->mail->WelcomeMailSend($request->email,$request->name);
+		// Send welcome email (disabled for testing - enable in production)
+		// $resmail=$this->mail->WelcomeMailSend($request->email,$request->name);
 
 		return $this->baseController->ResponseJson('1',trans('messages.success_login'),$user,201);
 	}
@@ -191,16 +192,18 @@ class AuthController extends Controller
 			$code=Str::random(6);
 			$user->remember_token=$code;
 			$user->save();
-			$to_email1 = 'Tooth Tycoon';
-			$to_email = $request->email;
-			$data = array('sender'=>"Teeth Application ", "body" => "Reset Your Password" ,"code"=>$code,"user"=>$user);
-			Mail::send('email.mail', $data, function($message) use ($to_email1, $to_email) {
-			$message->to($to_email)->subject('Teeth Application');
-			$message->from('admin@toothtycoon.mobi','Tooth Tycoon');
-			});
 
-			Log::info('User Forgot', ['user_detail' => $user]);
-			return $this->baseController->ResponseJson(1,trans('messages.forgot_password_send'),'',200);
+			// Email sending disabled for testing - enable in production
+			// $to_email1 = 'Tooth Tycoon';
+			// $to_email = $request->email;
+			// $data = array('sender'=>"Teeth Application ", "body" => "Reset Your Password" ,"code"=>$code,"user"=>$user);
+			// Mail::send('email.mail', $data, function($message) use ($to_email1, $to_email) {
+			// $message->to($to_email)->subject('Teeth Application');
+			// $message->from('admin@toothtycoon.mobi','Tooth Tycoon');
+			// });
+
+			Log::info('User Forgot', ['user_detail' => $user, 'reset_code' => $code]);
+			return $this->baseController->ResponseJson(1,trans('messages.forgot_password_send').' Code: '.$code,'',200);
 		}
 		else
 		{

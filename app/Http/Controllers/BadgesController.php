@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Badges;
+use App\Models\Badges;
 use Illuminate\Http\Request;
 use Carbon\carbon;
 use Session;
-use App\Question;
+use App\Models\Question;
 use File;
 use Storage;
 

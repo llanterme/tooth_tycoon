@@ -27,7 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Passport::routes();
+        // Passport::routes() is no longer needed in Laravel 9+
+        // Routes are automatically registered
         //
     }
 }
