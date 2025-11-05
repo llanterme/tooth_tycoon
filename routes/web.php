@@ -23,7 +23,7 @@ Auth::routes();
 //     return view('home');
 // })->name('home')->middleware('auth');
 
-Route::post('/login',[\App\Http\Controllers\AdminController::class, 'login'])->name('login');
+Route::post('/login',[\App\Http\Controllers\AdminController::class, 'login'])->name('admin.login');
 
 Route::group(['prefix'=>'admin','middleware' => ['AdminCheck','web']], function()
 {
@@ -42,9 +42,9 @@ Route::group(['prefix'=>'admin','middleware' => ['AdminCheck','web']], function(
     Route::resource('/Budges', \App\Http\Controllers\BadgesController::class);
     Route::get('/Budges/Question/{id}',[\App\Http\Controllers\QuestionController::class, 'index'])->name('Budges.Question');
     Route::get('/Budges/Question/Add/{badges_id}', [\App\Http\Controllers\QuestionController::class, 'AddQuestion'])->name('Budges.Question.Add');
-    Route::post('/Budges/Question/Add/{badges_id}', [\App\Http\Controllers\QuestionController::class, 'StoreQuestion'])->name('Budges.Question.Add');
+    Route::post('/Budges/Question/Add/{badges_id}', [\App\Http\Controllers\QuestionController::class, 'StoreQuestion'])->name('Budges.Question.Store');
     Route::get('/Budges/Question/Edit/{question_id}', [\App\Http\Controllers\QuestionController::class, 'EditQuestion'])->name('Budges.Question.Edit');
-    Route::post('/Budges/Question/Edit/{question_id}', [\App\Http\Controllers\QuestionController::class, 'UpdateQuestion'])->name('Budges.Question.Edit');
+    Route::post('/Budges/Question/Edit/{question_id}', [\App\Http\Controllers\QuestionController::class, 'UpdateQuestion'])->name('Budges.Question.Update');
     Route::get('/Budges/Question/Delete/{question_id}', [\App\Http\Controllers\QuestionController::class, 'SoftDeleteQuestion'])->name('Budges.Question.Delete');
     Route::get('/Invest',[\App\Http\Controllers\InvestController::class, 'index'])->name('invest');
     Route::get('/CashOut',[\App\Http\Controllers\CashOutController::class, 'index'])->name('CashOut');
