@@ -2,6 +2,17 @@
   "phases": {
     "setup": {
       "nixPkgs": ["php82", "php82Extensions.mbstring", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "nodejs", "npm"]
+    },
+    "install": {
+      "cmds": [
+        "composer install --no-dev --optimize-autoloader",
+        "npm ci"
+      ]
+    },
+    "build": {
+      "cmds": [
+        "npm run production"
+      ]
     }
   }
 }
